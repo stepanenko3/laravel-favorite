@@ -10,7 +10,7 @@ use Stepanenko3\LaravelFavorite\Models\Favorite;
  * @license MIT
  * @package Stepanenko3/laravel-favorite
  *
- * Copyright (c) 2016 Christian Kuri
+ * Copyright (c) 2020 Artem Stepanenko
  */
 trait Favoriteability
 {
@@ -101,5 +101,15 @@ trait Favoriteability
     public function hasFavorited($object)
     {
         return $object->isFavorited($this->id);
+    }
+
+    public function convertSessionToUserFavorites($sessionId)
+    {
+        // sessions need to be active
+        if (config('favorites.sessions')) {
+            Favorite::whereNull('user_id')
+                ->where('session_id', $sessionId)
+                ->update(['user_id' => $this->id]);
+        }
     }
 }

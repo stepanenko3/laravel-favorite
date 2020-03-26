@@ -12,7 +12,7 @@ use Stepanenko3\LaravelFavorite\Models\Favorite as FavoriteModel;
  * @license MIT
  * @package Stepanenko3/laravel-favorite
  *
- * Copyright (c) 2016 Christian Kuri
+ * Copyright (c) 2020 Artem Stepanenko
  */
 class Favorite
 {

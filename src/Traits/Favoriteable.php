@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Session;
  * @license MIT
  * @package Stepanenko3/laravel-favorite
  *
- * Copyright (c) 2016 Christian Kuri
+ * Copyright (c) 2020 Artem Stepanenko
  */
 trait Favoriteable
 {
@@ -31,10 +31,10 @@ trait Favoriteable
      * 
      * @param  int $user_id  [if  null its added to the auth user]
      */
-    public function favorite($user_id = null)
+    public function addFavorite($user_id = null)
     {
         $data = [
-            'user_id' => ($user_id) ? $user_id : Auth::id(),
+            'user_id' => $user_id ?: Auth::id(),
             'session_id' => Session::getId(),
         ];
 
@@ -57,21 +57,12 @@ trait Favoriteable
      * @param  int $user_id  [if  null its added to the auth user]
      * 
      */
-    public function unfavorite($user_id = null)
+    public function removeFavorite($user_id = null)
     {
-        $data = [
-            'user_id' => ($user_id) ? $user_id : Auth::id(),
-            'session_id' => Session::getId(),
-        ];
-
-        $favorite = $this->favorites()
-            ->where('user_id', $data['user_id'])
-            ->where('session_id', $data['session_id'])
-            ->first();
-
-        if (!$favorite) return true;
-
-        $favorite->delete();
+        $this->favorites()
+            ->where('user_id', $user_id ?: Auth::id())
+            ->where('session_id', Session::getId())
+            ->delete();
 
         return true;
     }
@@ -94,10 +85,14 @@ trait Favoriteable
      */
     public function isFavorited($user_id = null)
     {
-        return $this->favorites()
-            ->where('user_id', ($user_id) ? $user_id : Auth::id())
+        if (!$this->relationLoaded('favorites')) {
+            $this->load('favorites');
+        }
+        
+        return (bool) $this->favorites
+            ->where('user_id', $user_id ?: Auth::id())
             ->where('session_id', Session::getId())
-            ->exists();
+            ->count();
     }
 
     /**

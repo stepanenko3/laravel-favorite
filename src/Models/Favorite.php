@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Config;
  * @license MIT
  * @package Stepanenko3/laravel-favorite
  *
- * Copyright (c) 2016 Christian Kuri
+ * Copyright (c) 2020 Artem Stepanenko
  */
 class Favorite extends Model
 {
