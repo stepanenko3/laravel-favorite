@@ -1,6 +1,7 @@
 {
     "name": "stepanenko3/laravel-favorite",
     "type": "library",
+    "version": "1.0.0",
     "description": "Allows Laravel Eloquent models to implement a 'favorite' or 'remember' or 'follow' feature.",
     "keywords": [
         "Stepanenko3",
