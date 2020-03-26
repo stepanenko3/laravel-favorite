@@ -74,7 +74,13 @@ trait Favoriteable
      */
     public function toggleFavorite($user_id = null)
     {
-        $this->isFavorited($user_id) ? $this->removeFavorite($user_id) : $this->addFavorite($user_id);
+        if ($this->isFavorited($user_id)) {
+            $this->removeFavorite($user_id);
+            return false;
+        } else {
+            $this->addFavorite($user_id);
+            return true;
+        }
     }
 
     /**
